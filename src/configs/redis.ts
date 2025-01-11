@@ -7,6 +7,7 @@ const REDIS_HOST = process.env.REDIS_HOST;
 const redisClient = new Redis({
   port: REDIS_PORT_INT,
   host: REDIS_HOST,
+  maxRetriesPerRequest: null,
 });
 
 export default redisClient;

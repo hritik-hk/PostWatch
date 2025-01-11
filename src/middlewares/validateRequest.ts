@@ -1,9 +1,9 @@
 import { Response, Request, NextFunction } from "express";
 import redisClient from "../configs/redis";
-import sendMail from "../configs/mail";
-import FailedRequest from "../models/failedRequest";
 import { getDurationInHrsMinSec } from "../utils/common";
 import { failedRequestType } from "../constants";
+import mailTaskQueue from "../queues/mailTaskQueue";
+import monitorTaskQueue from "../queues/monitorTaskQueue";
 
 export default function validateRequestAndRateLimit(
   window: number,
@@ -19,13 +19,11 @@ export default function validateRequestAndRateLimit(
         const identifier = `failedRequest: ${ip}`;
         const req_count = await redisClient.incr(identifier);
 
-        // save record into db
-        const newFailedRequest = new FailedRequest({
+        // add to queue
+        monitorTaskQueue.add("monitor-processing-queue", {
           ip: ip,
           reason: failedRequestType.ACCESS_TOKEN_FAILURE,
         });
-
-        await newFailedRequest.save();
 
         let try_after = 0;
         if (req_count === 1) {
@@ -35,7 +33,15 @@ export default function validateRequestAndRateLimit(
         }
 
         if (req_count > requestsAllowed) {
-          await sendMail();
+          const mailSubject = "Limit Reached Alert";
+          const mailBody =
+            "You have exceed limit of invalid requests for endpoint: api/submit";
+
+          // add mail to queue
+          mailTaskQueue.add("mail-processing-queue", {
+            mailSubject,
+            mailBody,
+          });
 
           return res.status(429).json({
             msg: `your have exceed failed requests limits, try after ${getDurationInHrsMinSec(

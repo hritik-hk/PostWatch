@@ -16,18 +16,20 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-async function sendMail() {
-  const receivers_list = ["hritikkumar0407@gmail.com"];
+async function sendMail(subject: string, body: string) {
+  const receivers_list = ["hritikkumar4720@gmail.com"];
   const receivers = receivers_list.join();
 
   const info = await transporter.sendMail({
     from: SENDER,
     to: receivers,
-    subject: "Alert Mail",
-    text: "You have exceed limit of invalid requests",
+    subject: subject,
+    text: body,
   });
 
-  console.log("Message sent: %s", info.messageId);
+  return {
+    messageId: info.messageId,
+  };
 }
 
 export default sendMail;
