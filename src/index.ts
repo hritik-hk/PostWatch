@@ -4,7 +4,7 @@ import express, { Express } from "express";
 import connectToDB from "./configs/database.js";
 import router from "./routes/index.js";
 import requestIp from "request-ip";
-import morganMiddleware from "./middlewares/morgan";
+import morganMiddleware from "./middlewares/morgan.js";
 import { logger } from "./configs/winston.js";
 
 const app = express();

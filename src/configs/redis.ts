@@ -1,4 +1,4 @@
-import Redis from "ioredis";
+import { Redis } from "ioredis";
 
 const REDIS_PORT = process.env.REDIS_PORT || "6379";
 const REDIS_PORT_INT = parseInt(REDIS_PORT);

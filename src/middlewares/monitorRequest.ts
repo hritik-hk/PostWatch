@@ -20,7 +20,7 @@ export default function monitorRequestAndRateLimit(
         const identifier = `failedRequest: ${ip}`;
         const req_count = await redisClient.incr(identifier);
 
-        // add to queue
+        // add task to queue
         monitorTaskQueue.add("monitor-processing-queue", {
           ip: ip,
           reason: failedRequestType.ACCESS_TOKEN_FAILURE,
@@ -43,7 +43,7 @@ export default function monitorRequestAndRateLimit(
           const mailBody =
             "You have exceed limit of invalid requests for endpoint: api/submit";
 
-          // add mail to queue
+          // add mail task to queue
           mailTaskQueue.add("mail-processing-queue", {
             mailSubject,
             mailBody,

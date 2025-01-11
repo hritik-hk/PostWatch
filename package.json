@@ -2,7 +2,7 @@
   "name": "post-watch",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
@@ -29,6 +29,7 @@
     "@types/express": "^5.0.0",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.10.5",
+    "@types/nodemailer": "^6.4.17",
     "@types/request-ip": "^0.0.41",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"
