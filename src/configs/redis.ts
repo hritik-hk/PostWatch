@@ -1,10 +1,12 @@
 import Redis from "ioredis";
 
-const REDIS_URL = process.env.REDIS_URL;
+const REDIS_PORT = process.env.REDIS_PORT || "6379";
+const REDIS_PORT_INT = parseInt(REDIS_PORT);
+const REDIS_HOST = process.env.REDIS_HOST;
 
-const redis = new Redis({
-  port: 6379,
-  host: "localhost",
+const redisClient = new Redis({
+  port: REDIS_PORT_INT,
+  host: REDIS_HOST,
 });
 
-export default redis;
+export default redisClient;
