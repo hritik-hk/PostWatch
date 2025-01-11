@@ -7,6 +7,8 @@
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
     "build": "tsc -b",
+    "worker:mail": "node node dist/workers/mail.worker.js",
+    "worker:monitor": "node dist/workers/monitor.worker.js ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
