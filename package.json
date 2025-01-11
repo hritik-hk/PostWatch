@@ -18,12 +18,16 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "ioredis": "^5.4.2",
+    "moment": "^2.30.1",
     "mongoose": "^8.9.4",
+    "morgan": "^1.10.0",
     "nodemailer": "^6.9.16",
-    "request-ip": "^3.3.0"
+    "request-ip": "^3.3.0",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.9",
     "@types/node": "^22.10.5",
     "@types/request-ip": "^0.0.41",
     "tsx": "^4.19.2",

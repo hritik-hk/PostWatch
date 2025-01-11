@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { logger } from "./winston";
 
 const DB_URL = process.env.DB_URL;
 
@@ -6,12 +7,12 @@ async function connectToDB() {
   try {
     if (DB_URL) {
       await mongoose.connect(DB_URL);
-      console.log("Connected to the database");
+      logger.info(`[DATABSE] Connected to the database`);
     } else {
-      throw new Error("DB connection string not found");
+      logger.error(`[DATABSE] DB connection string not found`);
     }
   } catch (error) {
-    console.error("Error connecting to the database:", error);
+    logger.error(`[DATABSE] Error connecting to the database:`);
   }
 }
 

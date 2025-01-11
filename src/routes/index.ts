@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { submit, metrics } from "../controllers/index.js";
-import validateRequest from "../middlewares/validateRequest.js";
+import monitorRequest from "../middlewares/monitorRequest.js";
 
 const WINDOW = 60; // in seconds
 const ALLOWED_FAILED_REQUEST = 5;
@@ -9,7 +9,7 @@ const ALLOWED_FAILED_REQUEST = 5;
 const router = (app): void => {
   app.post(
     "/api/submit",
-    validateRequest(WINDOW, ALLOWED_FAILED_REQUEST),
+    monitorRequest(WINDOW, ALLOWED_FAILED_REQUEST),
     submit
   );
 

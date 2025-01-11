@@ -16,4 +16,14 @@ const getDurationInHrsMinSec = (duration: number) => {
   return formatted;
 };
 
-export { getDurationInHrsMinSec };
+// @ts-ignore
+const getAllProperties = (obj) => {
+  const allProps = {};
+  for (const key of Reflect.ownKeys(obj)) {
+    //@ts-ignore
+    allProps[key] = obj[key];
+  }
+  return allProps;
+};
+
+export { getDurationInHrsMinSec, getAllProperties };

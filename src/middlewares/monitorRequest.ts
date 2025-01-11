@@ -1,11 +1,12 @@
 import { Response, Request, NextFunction } from "express";
-import redisClient from "../configs/redis";
-import { getDurationInHrsMinSec } from "../utils/common";
-import { failedRequestType } from "../constants";
-import mailTaskQueue from "../queues/mailTaskQueue";
-import monitorTaskQueue from "../queues/monitorTaskQueue";
+import redisClient from "../configs/redis.js";
+import { getDurationInHrsMinSec } from "../utils/common.js";
+import { failedRequestType } from "../constants.js";
+import mailTaskQueue from "../queues/mailTaskQueue.js";
+import monitorTaskQueue from "../queues/monitorTaskQueue.js";
+import { logger } from "../configs/winston.js";
 
-export default function validateRequestAndRateLimit(
+export default function monitorRequestAndRateLimit(
   window: number,
   requestsAllowed: number
 ) {
@@ -24,6 +25,11 @@ export default function validateRequestAndRateLimit(
           ip: ip,
           reason: failedRequestType.ACCESS_TOKEN_FAILURE,
         });
+
+        // log the failed request
+        logger.warn(
+          `[monitorRequest] unauthorized request by ip: ${ip} due to missing acess-token header`
+        );
 
         let try_after = 0;
         if (req_count === 1) {
@@ -58,7 +64,7 @@ export default function validateRequestAndRateLimit(
         next();
       }
     } catch (error) {
-      console.log("rate limiter error: ", error);
+      logger.error("[monitorRequest] something went wrong ", error);
       next(error);
     }
   };
